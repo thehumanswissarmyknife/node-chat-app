@@ -14,23 +14,12 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('new user connected');
 
-	// socket.emit('newEmail', {
-	// 	name: "dennis",
-	// 	text: "peter",
-	// 	time: "123"
-	// }); 
-
-
-	socket.on('emailCreated', (emailContent) => {
-		
-		console.log('emailCreated', emailContent);
-	});
-
 	socket.on('sendMessage', (message) => {
 		console.log('new message written', message);
+
 		var timer = Date.now();
 
-		socket.emit('newMessage', {
+		io.emit('newMessage', {
 		from: message.from,
 		text: message.text,
 		timestamp: timer
