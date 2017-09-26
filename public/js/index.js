@@ -23,10 +23,10 @@ socket.on('newMessage', function(message) {
 
 
 socket.on('welcomeMessage', function(message) {
-	console.log('Welcome! Users online: ', message.usersOnline);
+	console.log(message.from + " says:", message.text);
 });
 
 socket.on('newUserLoggedIn', function(message) {
-	console.log('New user logged in. Total users online: ', message.usersOnline);
+	console.log(message.from + " says:", message.text);
 });
 
