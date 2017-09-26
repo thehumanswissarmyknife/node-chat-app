@@ -1,24 +1,19 @@
 var socket = io();
+
 socket.on('connect', function() {
 	console.log("Connected to server");
-
-	// socket.emit('sendMessage', {
-	// 	from: 'dennis',
-	// 	text: "texst message to my peeps"
-	// });
-
 });
 
 socket.on('disconnect', function() {
 	console.log("Server disconnected");
 });
 
-socket.on('newEmail', function(email) {
-	console.log('new Email', email);
-});
-
 socket.on('newMessage', function(message) {
 	console.log('new message received', message);
+	var li = jQuery('<li></li>');
+	li.text(`${message.from}: ${message.text}`);
+
+	jQuery('#messages').append(li);
 });
 
 
@@ -30,3 +25,13 @@ socket.on('newUserLoggedIn', function(message) {
 	console.log(message.from + " says:", message.text);
 });
 
+
+jQuery('#message-form').on('submit', function (e) {
+	e.preventDefault();
+	socket.emit('sendMessage', {
+		from: 'User',
+		text: jQuery('[name=message]').val()
+	}, function() {
+
+	});
+});

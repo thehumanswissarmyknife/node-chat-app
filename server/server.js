@@ -17,17 +17,14 @@ io.on('connection', (socket) => {
 	usersOnline++;
 	console.log('new user connected, total users: ', usersOnline);
 
-	socket.emit('welcomeMessage', generateMessage('Admin', 'Welcome to the chat app'));
+	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
-	socket.broadcast.emit('newUserLoggedIn', generateMessage('Admin', 'A new user just logged in'));
+	socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new user just logged in'));
 
-	socket.on('sendMessage', (message) => {
+	socket.on('sendMessage', (message, callback) => {
 		console.log('createMessage', message);
-
-		
-
 		io.emit('newMessage', generateMessage(message.from, message.text));
-
+		callback ('this is coming from the server');
 		// socket.broadcast.emit('newMessage', {
 		// 	from: message.from,
 		// 	text: message.text,
