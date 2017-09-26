@@ -2,12 +2,12 @@ var socket = io();
 socket.on('connect', function() {
 	console.log("Connected to server");
 
-	socket.emit('sendMessage', {
-		from: 'dennis',
-		text: "texst message to my peeps"
-	});
+	// socket.emit('sendMessage', {
+	// 	from: 'dennis',
+	// 	text: "texst message to my peeps"
+	// });
 
-	});
+});
 
 socket.on('disconnect', function() {
 	console.log("Server disconnected");
@@ -19,5 +19,14 @@ socket.on('newEmail', function(email) {
 
 socket.on('newMessage', function(message) {
 	console.log('new message received', message);
+});
+
+
+socket.on('welcomeMessage', function(message) {
+	console.log('Welcome! Users online: ', message.usersOnline);
+});
+
+socket.on('newUserLoggedIn', function(message) {
+	console.log('New user logged in. Total users online: ', message.usersOnline);
 });
 
