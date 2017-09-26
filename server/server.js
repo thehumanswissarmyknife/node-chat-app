@@ -25,11 +25,12 @@ io.on('connection', (socket) => {
 		console.log('createMessage', message);
 		io.emit('newMessage', generateMessage(message.from, message.text));
 		callback ('this is coming from the server');
-		// socket.broadcast.emit('newMessage', {
-		// 	from: message.from,
-		// 	text: message.text,
-		// 	timestamp: new Date().getTime()
-		// });
+
+	});
+
+	socket.on('createLocationMessage', (coords) => {
+		// console.log('createLocationMessage', coords;
+		io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
 	});
 
 	socket.on('disconnect', (socket) =>{
