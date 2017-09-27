@@ -9,11 +9,22 @@ socket.on('disconnect', function() {
 });
 
 socket.on('newMessage', function(message) {
-	console.log('new message received', message);
-	var li = jQuery('<li></li>');
-	li.text(`${message.from}: ${message.text}`);
 
-	jQuery('#messages').append(li);
+	var template = jQuery('#message-template').html();
+	var createdAt = moment(message.createdAt).format('h:mm a');
+	var html = Mustache.render(template, {
+		from: message.from,
+		text: message.text,
+		time: createdAt
+	});
+
+	jQuery('#messages').append(html);
+	// console.log('new message received', message);
+	// var formattedTime = moment(message.createdAt).format('h:mm a');
+	// var li = jQuery('<li></li>');
+	// li.text(`${message.from}: ${message.text}, sent at: ${formattedTime}`);
+
+	// jQuery('#messages').append(li);
 });
 
 
@@ -48,7 +59,7 @@ locationButton.on('click', function() {
 	locationButton.attr('disabled', 'disabled').text('sending location ...');
 
 	navigator.geolocation.getCurrentPosition(function(position) {
-		locationButton.removeAttr('disabled')text('Send location');
+		locationButton.removeAttr('disabled').text('Send location');
 		socket.emit('createLocationMessage', {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude
