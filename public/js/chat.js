@@ -73,16 +73,17 @@ socket.on('newUserLoggedIn', function(message) {
 
 
 jQuery('#message-form').on('submit', function (e) {
+  e.preventDefault();
 
-	var messageTextBox = jQuery('[name=message]');
-	e.preventDefault();
-	socket.emit('sendMessage', {
-		from: 'User',
-		text: messageTextBox.val()
-	}, function() {
-		messageTextBox.val('')
-	});
+  var messageTextbox = jQuery('[name=message]');
+
+  socket.emit('createMessage', {
+    text: messageTextbox.val()
+  }, function () {
+    messageTextbox.val('')
+  });
 });
+
 
 var locationButton = jQuery('#send-location');
 locationButton.on('click', function() {
